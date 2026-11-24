@@ -1,0 +1,6 @@
+# Runtime stores created by the hosted API — never commit these.
+# They hold login codes + subscriptions and are re-created on the server.
+server/hosted_*.json
+server/*.tmp
+__pycache__/
+*.pyc

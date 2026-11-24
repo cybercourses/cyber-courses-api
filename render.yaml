@@ -1,0 +1,23 @@
+# Render Blueprint for the courses API (Flask).
+# Deploy: Dashboard -> New -> Blueprint -> connect the Git repo that
+# contains this folder at its root. Render auto-detects this file.
+# NOTE: INTERNAL_SECRET is marked sync: false — it is NOT stored here.
+# Set its real value in the Render Dashboard (Environment tab) at deploy
+# time, and use the SAME value on this VM for the bot + watcher services.
+services:
+  - type: web
+    name: cyber-courses-api
+    env: python
+    plan: free
+    region: frankfurt
+    branch: main
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn --chdir server app:app --bind 0.0.0.0:$PORT --workers 1 --threads 4 --timeout 120
+    healthCheckPath: /health
+    envVars:
+      - key: API_HOSTED_MODE
+        value: "1"
+      - key: PYTHON_VERSION
+        value: 3.12.0
+      - key: INTERNAL_SECRET
+        sync: false
